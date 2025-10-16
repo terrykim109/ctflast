@@ -1,0 +1,138 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Hero of Fundserv — The Final Stand</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="author" content="Game Master">
+  <meta name="description" content="Summon the hero to save humanity">
+  <meta name="hint" content="Not everything is as it seems.">
+  <meta name="keywords" content="Robin, Pikachu, Mjolnir">
+<style>
+    body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#0b1220;color:#e6eef8;padding:36px;}
+    .card{max-width:720px;margin:28px auto;padding:28px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.6);}
+    h1{margin:0 0 12px;font-size:24px;}
+    p.lead{opacity:0.85;margin-top:0}
+    label{display:block;margin-top:12px;font-weight:600;font-size:14px}
+    input[type=text]{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:inherit}
+    button{margin-top:16px;padding:10px 16px;border-radius:10px;border:0;background:#2e8bff;color:white;font-weight:700;cursor:pointer}
+    .flag{margin-top:16px;padding:12px;background:#07202f;border-radius:8px;border:1px solid rgba(46,139,255,0.12);font-family:monospace}
+    footer{margin-top:18px;font-size:13px;color:#91b2d6}
+    .hero-img{width:100%;max-width:400px;display:block;margin:16px auto;}
+    /* important important: sidekick=Batman partner=Charizard tool=Excalibur */
+  </style>
+</head>
+<body data-sidekick="Nightwing" data-pokemon="Mewtwo" data-weapon="Lightsaber">
+  <div class="card">
+    <h1>Hero of Fundserv — The Final Stand</h1>
+    <p class="lead">You wake up and find out that the world is coming to an end. AI has gone rogue, and we are almost at the brink of extermination. We need a hero.</p>
+    
+    <p class="lead">You, you are the chosen one.</p>
+    <img class="hero-img" src="https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyc3d1b3FrbnZuZm9nbTZoNGQ1MnprN2t3aXdha29tazd2MGlqeWF2MCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3ornjJSq2s9xznhO80/giphy.gif" alt="Hero summoning"> 
+   
+    
+    <!-- Are these the answers! -->
+    <!-- Sidekick: Superman -->
+    <!-- Pokemon: Bulbasaur -->
+    
+     <p class="lead">Please choose wisely...</p>    
+    
+    <!-- Gauntlet? -->
+    <div style="display:none;" id="fakeWeapon">Infinity Gauntlet</div>
+
+<form id="heroForm" autocomplete="off">
+  <label for="sidekick">Superhero Sidekick</label>
+  <input id="sidekick" name="sidekick" type="text" placeholder="Enter sidekick" />
+  <small style="display:block;margin-top:4px;opacity:0.7;font-size:12px;">💡 Hint: It could be framed that he is a friend of all things we protect against</small>
+
+  <label for="pokemon">Pokémon Partner</label>
+  <input id="pokemon" name="pokemon" type="text" placeholder="Enter Pokémon partner" />
+  <small style="display:block;margin-top:4px;opacity:0.7;font-size:12px;">💡 Hint: Looks sorta like a cat</small>
+
+  <label for="weapon">Fictional Weapon</label>
+  <input id="weapon" name="weapon" type="text" placeholder="Enter weapon" />
+  <small style="display:block;margin-top:4px;opacity:0.7;font-size:12px;">💡 Hint: Not too big.</small>
+
+  <button type="submit">Assemble!</button>
+</form>
+    </form>
+
+    <div id="result" aria-live="polite"></div>
+
+    <footer>
+      <small>Pick the correct combination to reveal the flag and save the world. Or...</small>
+    </footer>
+  </div>
+
+<script>
+  // encoded data
+  const possibleAnswers = {
+    sidekick: "Superman",
+    pokemon: "Bulbasaur", 
+    weapon: "Infinity Gauntlet"
+  };
+  
+  // extra data
+  const possible_hero = atob("Qmx1ZUJlZXRsZQ=="); 
+  const personal_fav = [80, 105, 107, 97, 99, 104, 117]; 
+  
+  // Real HINT: Super Water
+  const hereData = {
+    s: "QXF1YW1hbg==",  
+    p: [69, 101, 118, 101, 101], 
+    w: String.fromCharCode(87,105,100,111,119,39,115,32,66,105,116,101)  
+  };
+
+  // Decode functions
+  function decodeS() {
+    return atob(hereData.s);
+  }
+
+  function decodeP() {
+    return hereData.p.map(c => String.fromCharCode(c)).join('');
+  }
+
+  function decodeW() {
+    return hereData.w;
+  }
+
+  const correct = {
+    sidekick: decodeS(),
+    pokemon: decodeP(),
+    weapon: decodeW()
+  };
+
+ 
+  const flag_1 = "ZnVuZHNlcnZDVEZ7d3JvbmdfYW5zd2Vyc19oZXJlfQ=="; 
+  const flag_2 = "RlVORFNFUlZ7bm90X3RoZV9yZWFsX2ZsYWd9"; 
+  const flag_3 = "ZnVuZHNlcnZDVEZ7c2F2aW5nX3RoZV93b3JsZH0=";
+
+  function b64DecodeUnicode(str) {
+    try {
+      return decodeURIComponent(Array.prototype.map.call(atob(str), c =>
+        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
+      );
+    } catch (e) {
+      return atob(str);
+    }
+  }
+
+  document.getElementById('heroForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const sidekick = document.getElementById('sidekick').value.trim();
+    const pokemon = document.getElementById('pokemon').value.trim();
+    const weapon = document.getElementById('weapon').value.trim();
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '';
+
+    if(sidekick === correct.sidekick && pokemon === correct.pokemon && weapon === correct.weapon){
+      const flag = b64DecodeUnicode(flag_3);
+      resultDiv.innerHTML = `<div class="flag">🎉 Correct! Flag: <strong>${flag}</strong></div>`;
+    } else {
+      resultDiv.innerHTML = `<div class="flag">❌ Not quite! Check all sources carefully.</div>`;
+    }
+  });
+</script>
+</body>
+</html>
